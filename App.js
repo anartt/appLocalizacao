@@ -1,20 +1,46 @@
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+
+import GoogleMapsScreen from './screens/GoogleMapsScreen';
+import MapboxScreen from './screens/MapboxScreen';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarLabel: route.name === 'Google' ? '🔵 Google Maps' : '🟡 Mapbox',
+          tabBarActiveTintColor: '#4285F4',
+          tabBarInactiveTintColor: '#ccc',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#f0f0f0',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        })}
+      >
+        <Tab.Screen
+          name="Google"
+          component={GoogleMapsScreen}
+          options={{
+            title: 'Google Maps API',
+          }}
+        />
+        <Tab.Screen
+          name="Mapbox"
+          component={MapboxScreen}
+          options={{
+            title: 'Mapbox / OpenStreetMap',
+          }}
+        />
+      </Tab.Navigator>
+      <StatusBar style="dark" />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
